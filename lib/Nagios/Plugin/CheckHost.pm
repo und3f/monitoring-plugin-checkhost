@@ -25,6 +25,18 @@ sub new {
     $self->_initialize();
 }
 
+sub _initialize_nagios {
+    my ($self, %args) = @_;
+
+    $self->{nagios} = Nagios::Plugin->new(
+        shortname => 'CHECKHOST',
+        usage     => 'Usage: %s -H <host> -w <warning> -c <critical>',
+        url       => $URL,
+        version   => $VERSION,
+        %args
+    );
+}
+
 sub nagios { $_[0]->{nagios} }
 
 sub run {
@@ -91,7 +103,7 @@ sub nodes_class {
 sub report_url {
     my $self = shift;
 
-    "$URL\check-report/" . $self->{request_id};
+    $URL . "check-report/" . $self->{request_id};
 }
 
 1;
