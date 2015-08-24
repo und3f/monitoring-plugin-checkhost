@@ -28,8 +28,9 @@ subtest "ping result" => sub {
     $pingr->store_result({'7f000002' => [[]]});
     is_deeply [$pingr->unfinished_nodes], [];
     
-    is_deeply [$pingr->check_result],
-      [[$nodes->[0], $nodes->[2]], [$nodes->[1]]], 'ping check results';
+    is $pingr->calc_loss($nodes->[0]), 0;
+    is $pingr->calc_loss($nodes->[1]), 1;
+    is $pingr->calc_loss($nodes->[2]), 0.5;
 };
 
 done_testing();

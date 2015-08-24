@@ -14,7 +14,7 @@ sub new {
     my ($class, @args) = @_;
 
     bless {
-        gateway   => 'http://check-host.net/',
+        gateway   => 'https://check-host.net/',
         ua        => LWP::UserAgent->new,
         @args
     }, $class;
