@@ -1,16 +1,19 @@
 use inc::Module::Install;
 
-name 'Protocol-Redis';
+name 'Nagios-Plugin-CheckHost';
 all_from 'lib/Nagios/Plugin/CheckHost.pm';
 
 requires 'Carp';
 requires 'List::Util';
+requires 'LWP::UserAgent';
+requires 'Nagios::Plugin';
 requires 'Test::More' => '0.88';
+requires 'Try::Tiny';
 
 tests 't/*.t';
 
 resources
-  bugtracker => 'https://github.com/und3f/protocol-redis/issues',
-  repository => 'http://github.com/und3f/protocol-redis';
+  bugtracker => 'https://github.com/und3f/nagios-plugin-checkhost/issues',
+  repository => 'http://github.com/und3f/nagios-plugin-checkhost';
 
 WriteAll;

@@ -5,31 +5,33 @@ use warnings;
 
 use base "Nagios::Plugin::CheckHost::Result";
 
-sub check_result {
-    my $self = shift;
-
-    my (@success, @fail);
-
-    foreach my $node ($self->nodes) {
-        if ($self->is_node_check_ok($node)) {
-            push @success, $node;
-        } else {
-            push @fail, $node;
-        }
-    }
-
-    return \@success, \@fail;
-}
-
-sub is_node_check_ok {
+sub calc_rtt {
     my ($self, $node) = @_;
 
-    my $failed_allowed = $self->{failed_allowed} || 0;
     my $result = $self->{results}->{$node};
     return unless $result;
     $result = $result->[0];
-    return unless $result;
-    return unless @$result;
+    return unless $result and $result->[0];
+
+    my $avg = 0;
+    my $total = 0;
+    foreach my $check (@$result) {
+        if ($check->[0] eq "OK") {
+            $avg += $check->[1];
+            $total += 1;
+        }
+    }
+    return unless $total;
+    $avg/$total;
+}
+
+sub calc_loss {
+    my ($self, $node) = @_;
+
+    my $result = $self->{results}->{$node};
+    return 1 unless $result;
+    $result = $result->[0];
+    return 1 unless $result and $result->[0];
 
     my ($success, $fail) = (0, 0);
     foreach my $check (@$result) {
@@ -40,9 +42,7 @@ sub is_node_check_ok {
         }
     }
     
-    my $total_fail = $fail/($fail+$success);
-
-    $total_fail <= $failed_allowed;
+    $fail/($fail+$success);
 }
 
 1;

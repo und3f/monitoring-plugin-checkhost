@@ -24,4 +24,8 @@ sub country {
     $_[0]->{country}
 }
 
+sub shortname {
+    sprintf("%s_%s", $_[0]->country, $_[0]->identifier);
+}
+
 1;

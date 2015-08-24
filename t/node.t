@@ -12,5 +12,6 @@ my $node = new_ok 'Nagios::Plugin::CheckHost::Node',
 is $node->identifier, '7f000001';
 is $node->country, 'be';
 is $node->city, 'Antwerp';
+is $node->shortname, 'be_7f000001';
 
 done_testing();
