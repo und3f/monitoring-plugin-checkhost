@@ -21,14 +21,18 @@ sub _initialize {
     $self->{total_pings} = 4;
     $np->add_arg(
         spec     => 'loss_threshold_critical|ltc=s',
-        help     => 'max ping loss (default %s).',
+        help     => 'maximum percentage of ping loss '
+            . 'outside of which a critical code '
+            . 'will be generated for a node (default %s).',
         default  => 50,
         required => 1,
     );
     $np->add_arg(
         spec     => 'loss_threshold_warning|ltw=s',
-        help     => 'max ping loss for warning state (default %s).',
-        default  => 10,
+        help     => 'maximum percentage of ping loss '
+            . 'outside of which a warning code '
+            . 'will be generated for a node (default %s).',
+        default  => 25,
         required => 1,
     );
 
