@@ -22,13 +22,13 @@ sub _initialize {
     $np->add_arg(
         spec     => 'loss_threshold_critical|ltc=s',
         help     => 'max ping loss (default %s).',
-        default  => 1,
+        default  => 50,
         required => 1,
     );
     $np->add_arg(
         spec     => 'loss_threshold_warning|ltw=s',
         help     => 'max ping loss for warning state (default %s).',
-        default  => 0.25,
+        default  => 10,
         required => 1,
     );
 
@@ -45,7 +45,7 @@ sub _initialize {
           . 'threshold check with any code, '
           . 'outside of which a warning will be generated. '
           . 'Default %s.',
-        default => 1,
+        default => 0,
     );
 
     $np->add_arg(
@@ -54,7 +54,7 @@ sub _initialize {
           . 'threshold check with a critical code, '
           . 'outside of which a critical will be generated. '
           . 'Default %s.',
-        default => 2,
+        default => 1,
     );
 
     $self;
@@ -71,16 +71,22 @@ sub process_check_result {
         Nagios::Plugin::WARNING  => 0,
         Nagios::Plugin::CRITICAL => 0
     );
+
+    my $ltc = "0:" . $opts->get('loss_threshold_critical');
+    my $ltw = "0:" . $opts->get('loss_threshold_warning');
+
     my $loss_threshold = Nagios::Plugin::Threshold->set_thresholds(
-        critical => $opts->get('loss_threshold_critical'),
-        warning  => $opts->get('loss_threshold_warning'),
+        critical => $ltc,
+        warning  => $ltw,
     );
 
     foreach my $node ($result->nodes) {
         my $loss = $result->calc_loss($node);
+        $loss = int($loss * 100);
+
         $np->add_perfdata(
             label => "loss-" . $node->shortname,
-            value => int($loss * 100),
+            value => $loss,
             uom   => '%',
         );
 
@@ -107,7 +113,6 @@ sub process_check_result {
             warning => $opts->get('warning'),
         );
     }
-
 
     $np->nagios_exit($code, "report " . $self->report_url);
 }
