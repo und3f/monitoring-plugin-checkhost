@@ -3,46 +3,52 @@ package Nagios::Plugin::Threshold::Group;
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use Nagios::Plugin::Functions qw(OK WARNING CRITICAL);
 
 sub new {
     my ($class, %args) = @_;
 
-    my $single_threshold = delete $args{single_threshold};
-    my $group_threshold  = delete $args{group_threshold};
+    my $single_threshold = delete $args{single_threshold} or croak 'single_threshold missed';
+    my $group_threshold  = delete $args{group_threshold} or croak 'group_threshold missed';
 
     bless {
         single_threshold => $single_threshold,
         group_threshold  => $group_threshold,
-        statuses => {
-            Nagios::Plugin::Functions::OK       => 0,
-            Nagios::Plugin::Functions::WARNING  => 0,
-            Nagios::Plugin::Functions::CRITICAL => 0
-          },
     }, $class;
 }
 
-sub add_value {
+sub get_value_status {
     my ($self, $value) = @_;
 
-    my $status = $self->{single_threshold}->get_status($value);
-    $self->{statuses}->{$status}++;
-
-    $status;
+    $self->{single_threshold}->get_status($value);
 }
 
 sub get_status {
-    my $self = shift;
+    my ($self, $values) = @_;
 
-    my $t = $self->{group_threshold};
-    my $s = $self->{statuses};
+    $values = [$values] if ref $values eq '';
+
+    my $st = $self->{single_threshold};
+    my $gt = $self->{group_threshold};
+
+    my $s = {
+        Nagios::Plugin::Functions::OK       => 0,
+        Nagios::Plugin::Functions::WARNING  => 0,
+        Nagios::Plugin::Functions::CRITICAL => 0,
+    };
+
+    foreach my $value (@$values) {
+        $s->{$st->get_status($value)}++;
+    }
+
     my $criticals = $s->{Nagios::Plugin::Functions::CRITICAL};
-    my $status = $t->get_status($criticals);
+    my $status = $gt->get_status($criticals);
     return $status if $status != OK;
 
-    if ($t->warning->is_set) {
+    if ($gt->warning->is_set) {
         my $warnings = $s->{Nagios::Plugin::Functions::WARNING};
-        return WARNING if $t->warning->check_range($warnings + $criticals);
+        return WARNING if $gt->warning->check_range($warnings + $criticals);
     }
 
     OK

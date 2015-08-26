@@ -29,13 +29,15 @@ subtest 'everything is ok if every value just in range' => sub {
         group_threshold  => $group_threshold,
     ];
 
-    is $gt->add_value($SINGLE_WARNING + 1), WARNING,
-      "Just one warning, it is allowed for OK";
+    my @values;
 
-    is($gt->add_value($SINGLE_WARNING), OK, "And a lot of OK values")
-      for 1 .. $GROUP_CRITICAL;
+    # Just one warning, it is allowed for OK
+    push @values, $SINGLE_WARNING + 1;
 
-    is $gt->get_status(), OK, 'ok status';
+    # And a lot of OK values
+    push @values, $SINGLE_WARNING for 1 .. $GROUP_CRITICAL;
+
+    is $gt->get_status(\@values), OK, 'ok status';
 };
 
 subtest 'we may got warning if we got '
@@ -44,18 +46,19 @@ subtest 'we may got warning if we got '
         single_threshold => $single_threshold,
         group_threshold  => $group_threshold,
     ];
+    my @values;
 
     # Recipe for a warning:
     # make single warning
-    $gt->add_value($SINGLE_WARNING+1);
+    push @values, $SINGLE_WARNING+1;
 
     # add critical for a taste
-    $gt->add_value($SINGLE_CRITICAL+1);
+    push @values, $SINGLE_CRITICAL+1;
 
     # and some OKs
-    $gt->add_value($SINGLE_WARNING) for 1 .. 2;
+    push @values, $SINGLE_WARNING for 1 .. 2;
 
-    is $gt->get_status(), WARNING, 'warning status';
+    is $gt->get_status(\@values), WARNING, 'warning status';
 };
 
 subtest 'you have to be critical to make it critical' => sub {
@@ -64,15 +67,16 @@ subtest 'you have to be critical to make it critical' => sub {
         group_threshold  => $group_threshold,
     ];
 
+    my @values;
 
-    $gt->add_value($SINGLE_CRITICAL+1) for 1..$GROUP_CRITICAL;
+    push @values, $SINGLE_CRITICAL + 1 for 1 .. $GROUP_CRITICAL;
 
     # Just a warning to prove that warning do not cause critical
-    $gt->add_value($SINGLE_WARNING+1);
-    is $gt->get_status(), WARNING, 'not a critical, yet..';
+    push @values, $SINGLE_WARNING+1;
+    is $gt->get_status(\@values), WARNING, 'not a critical, yet..';
 
-    $gt->add_value($SINGLE_CRITICAL + 1);
-    is $gt->get_status(), CRITICAL, 'we been critical and it is critical now';
+    push @values, $SINGLE_CRITICAL + 1;
+    is $gt->get_status(\@values), CRITICAL, 'we been critical and it is critical now';
 };
 
 done_testing();
