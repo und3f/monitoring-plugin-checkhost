@@ -5,7 +5,7 @@ use warnings;
 
 use base 'Nagios::Plugin::CheckHost';
 use Nagios::Plugin::Threshold;
-use Nagios::Plugin;
+use Nagios::Plugin::Threshold::Group;
 
 sub _initialize {
     my $self = shift;
@@ -70,18 +70,15 @@ sub process_check_result {
     my $np   = $self->{nagios};
     my $opts = $np->opts;
 
-    my %loss_result = (
-        Nagios::Plugin::OK       => 0,
-        Nagios::Plugin::WARNING  => 0,
-        Nagios::Plugin::CRITICAL => 0
-    );
-
-    my $ltc = "0:" . $opts->get('loss_threshold_critical');
-    my $ltw = "0:" . $opts->get('loss_threshold_warning');
-
-    my $loss_threshold = Nagios::Plugin::Threshold->set_thresholds(
-        critical => $ltc,
-        warning  => $ltw,
+    my $loss_threshold = Nagios::Plugin::Threshold::Group->new(
+        group_threshold => Nagios::Plugin::Threshold->new(
+            critical => $opts->get('critical'),
+            warning  => $opts->get('warning'),
+        ),
+        single_threshold => Nagios::Plugin::Threshold->new(
+            critical => $opts->get('loss_threshold_critical'),
+            warning  => $opts->get('loss_threshold_warning'),
+        ),
     );
 
     foreach my $node ($result->nodes) {
@@ -94,7 +91,7 @@ sub process_check_result {
             uom   => '%',
         );
 
-        $loss_result{$loss_threshold->get_status($loss)}++;
+        $loss_threshold->add_value($loss);
 
         if (my ($avg) = $result->calc_rtt($node)) {
             $np->add_perfdata(
@@ -105,18 +102,7 @@ sub process_check_result {
         }
     }
 
-    my $code = $np->check_threshold(
-        check    => $loss_result{Nagios::Plugin::CRITICAL},
-        critical => $opts->get('critical')
-    );
-
-    if ($code == OK) {
-        $code = $np->check_threshold(
-            check => $loss_result{Nagios::Plugin::WARNING}
-              + $loss_result{Nagios::Plugin::CRITICAL},
-            warning => $opts->get('warning'),
-        );
-    }
+    my $code = $loss_threshold->get_status;
 
     $np->nagios_exit($code, "report " . $self->report_url);
 }
