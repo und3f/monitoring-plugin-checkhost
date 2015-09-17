@@ -72,16 +72,7 @@ sub process_check_result {
     my $np   = $self->{nagios};
     my $opts = $np->opts;
 
-    my $loss_threshold = Nagios::Plugin::Threshold::Group->new(
-        group_threshold => Nagios::Plugin::Threshold->new(
-            critical => $opts->get('critical'),
-            warning  => $opts->get('warning'),
-        ),
-        single_threshold => Nagios::Plugin::Threshold->new(
-            critical => $opts->get('loss_threshold_critical'),
-            warning  => $opts->get('loss_threshold_warning'),
-        ),
-    );
+    my @losses = ();
 
     foreach my $node ($result->nodes) {
         my $loss = $result->calc_loss($node);
@@ -93,7 +84,7 @@ sub process_check_result {
             uom   => '%',
         );
 
-        $loss_threshold->add_value($loss);
+        push @losses, $loss;
 
         if (my ($avg) = $result->calc_rtt($node)) {
             $np->add_perfdata(
@@ -104,7 +95,18 @@ sub process_check_result {
         }
     }
 
-    my $code = $loss_threshold->get_status;
+    my $loss_threshold = Nagios::Plugin::Threshold::Group->new(
+        group_threshold => Nagios::Plugin::Threshold->new(
+            critical => $opts->get('critical'),
+            warning  => $opts->get('warning'),
+        ),
+        single_threshold => Nagios::Plugin::Threshold->new(
+            critical => $opts->get('loss_threshold_critical'),
+            warning  => $opts->get('loss_threshold_warning'),
+        ),
+    );
+
+    my $code = $loss_threshold->get_status(\@losses);
 
     $np->nagios_exit($code, "report " . $self->report_url);
 }
