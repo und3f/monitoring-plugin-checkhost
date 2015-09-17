@@ -10,6 +10,8 @@ use Nagios::Plugin::Threshold::Group;
 sub _initialize {
     my $self = shift;
 
+    $self->{check} = 'ping';
+
     my $np = $self->_initialize_nagios(shortname => 'CHECKHOST-PING');
 
     $np->add_arg(

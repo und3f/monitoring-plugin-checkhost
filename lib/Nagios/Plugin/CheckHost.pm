@@ -49,7 +49,7 @@ sub run {
     my $max_nodes = $opts->get('max_nodes');
 
     my $result = $self->_check(
-        'ping', $host,
+        $self->{check}, $host,
         max_nodes   => $max_nodes,
     );
     $self->process_check_result($result);
