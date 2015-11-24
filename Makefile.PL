@@ -3,6 +3,7 @@ use inc::Module::Install;
 name 'Nagios-Plugin-CheckHost';
 all_from 'lib/Nagios/Plugin/CheckHost.pm';
 install_script 'script/checkhost_ping';
+install_script 'script/checkhost_http';
 
 requires 'Carp';
 requires 'List::Util';
