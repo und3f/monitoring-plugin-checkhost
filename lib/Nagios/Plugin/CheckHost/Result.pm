@@ -16,7 +16,13 @@ sub store_result {
     foreach my $node (keys %$results) {
         my $node_c = $self->{nodes}{$node} or next;
 
-        $self->{results}{$node_c} = $results->{$node};
+        my $r = $results->{$node};
+
+        if (defined $r->[0]) {
+            $self->{results}{$node_c} = $r;
+        } else {
+            delete $self->{nodes}{$node};
+        }
     }
 }
 

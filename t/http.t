@@ -76,4 +76,18 @@ subtest 'critical threshold' => sub {
     is $e->code, Nagios::Plugin::CRITICAL, "critical exit code";
 };
 
+subtest 'slave fault' => sub {
+    my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
+      [nodes => $nodes];
+    $httpr->store_result({
+            $nodes->[0]->identifier => [[@OK]],
+            $nodes->[1]->identifier => [[@OK]],
+            $nodes->[2]->identifier => [undef,"some message"],
+        }
+    );
+
+    my $e = $http->process_check_result($httpr);
+    is $e->code, Nagios::Plugin::OK, "ok exit code";
+};
+
 done_testing();
