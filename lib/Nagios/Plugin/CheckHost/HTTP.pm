@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use base 'Nagios::Plugin::CheckHost';
-use Nagios::Plugin::Threshold;
-use Nagios::Plugin::Threshold::Group;
 
 sub _initialize {
     my $self = shift;

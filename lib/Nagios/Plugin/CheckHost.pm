@@ -7,7 +7,7 @@ our $VERSION = 0.01;
 our $URL = 'https://check-host.net/';
 
 use Net::CheckHost;
-use Nagios::Plugin;
+use Monitoring::Plugin;
 use Class::Load qw(load_class);
 use Nagios::Plugin::CheckHost::Node;
 use Try::Tiny;
@@ -28,7 +28,7 @@ sub new {
 sub _initialize_nagios {
     my ($self, %args) = @_;
 
-    $self->{nagios} = Nagios::Plugin->new(
+    $self->{nagios} = Monitoring::Plugin->new(
         shortname => 'CHECKHOST',
         usage     => 'Usage: %s -H <host> -w <warning> -c <critical>',
         url       => $URL,

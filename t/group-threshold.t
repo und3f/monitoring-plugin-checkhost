@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use Test::More;
 
-use Nagios::Plugin::Threshold;
-use Nagios::Plugin::Functions qw(:all);
+use Monitoring::Plugin::Threshold;
+use Monitoring::Plugin::Functions qw(:all);
 use_ok 'Nagios::Plugin::Threshold::Group';
 
 my $SINGLE_CRITICAL = 4;
@@ -13,12 +13,12 @@ my $SINGLE_WARNING  = 2;
 my $GROUP_CRITICAL  = 3;
 my $GROUP_WARNING   = 1;
 
-my $single_threshold = Nagios::Plugin::Threshold->new(
+my $single_threshold = Monitoring::Plugin::Threshold->new(
     critical => $SINGLE_CRITICAL,
     warning  => $SINGLE_WARNING,
 );
 
-my $group_threshold = Nagios::Plugin::Threshold->new(
+my $group_threshold = Monitoring::Plugin::Threshold->new(
     critical => $GROUP_CRITICAL,
     warning  => $GROUP_WARNING,
 );

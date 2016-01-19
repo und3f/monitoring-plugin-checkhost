@@ -7,7 +7,6 @@ our $VERSION = 0.01;
 
 use JSON;
 use LWP::UserAgent;
-use Nagios::Plugin;
 use URI;
 
 sub new {

@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use Nagios::Plugin;
-use Nagios::Plugin::Functions;
-Nagios::Plugin::Functions::_fake_exit(1);
+use Monitoring::Plugin;
+use Monitoring::Plugin::Functions;
+Monitoring::Plugin::Functions::_fake_exit(1);
 
 use Nagios::Plugin::CheckHost::Node;
 use Nagios::Plugin::CheckHost::Result::Http;
@@ -45,7 +45,7 @@ subtest 'ok result' => sub {
     );
 
     my $e = $http->process_check_result($httpr);
-    is $e->code, Nagios::Plugin::OK, "ok exit code";
+    is $e->code, Monitoring::Plugin::OK, "ok exit code";
 };
 
 subtest 'warning threshold' => sub {
@@ -59,7 +59,7 @@ subtest 'warning threshold' => sub {
     );
 
     my $e = $http->process_check_result($httpr);
-    is $e->code, Nagios::Plugin::WARNING, "warning exit code";
+    is $e->code, Monitoring::Plugin::WARNING, "warning exit code";
 };
 
 subtest 'critical threshold' => sub {
@@ -73,7 +73,7 @@ subtest 'critical threshold' => sub {
     );
 
     my $e = $http->process_check_result($httpr);
-    is $e->code, Nagios::Plugin::CRITICAL, "critical exit code";
+    is $e->code, Monitoring::Plugin::CRITICAL, "critical exit code";
 };
 
 subtest 'slave fault' => sub {
@@ -87,7 +87,7 @@ subtest 'slave fault' => sub {
     );
 
     my $e = $http->process_check_result($httpr);
-    is $e->code, Nagios::Plugin::OK, "ok exit code";
+    is $e->code, Monitoring::Plugin::OK, "ok exit code";
 };
 
 done_testing();

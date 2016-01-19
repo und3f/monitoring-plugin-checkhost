@@ -10,7 +10,7 @@ no_index 'nagios-checkhost.cfg';
 requires 'Carp';
 requires 'List::Util';
 requires 'LWP::UserAgent';
-requires 'Nagios::Plugin';
+requires 'Monitoring::Plugin';
 requires 'Test::More' => '0.88';
 requires 'Try::Tiny';
 

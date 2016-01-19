@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Carp qw(croak);
-use Nagios::Plugin::Functions qw(OK WARNING CRITICAL);
+use Monitoring::Plugin::Functions qw(OK WARNING CRITICAL);
 
 sub new {
     my ($class, %args) = @_;
@@ -33,21 +33,21 @@ sub get_status {
     my $gt = $self->{group_threshold};
 
     my $s = {
-        Nagios::Plugin::Functions::OK       => 0,
-        Nagios::Plugin::Functions::WARNING  => 0,
-        Nagios::Plugin::Functions::CRITICAL => 0,
+        Monitoring::Plugin::Functions::OK       => 0,
+        Monitoring::Plugin::Functions::WARNING  => 0,
+        Monitoring::Plugin::Functions::CRITICAL => 0,
     };
 
     foreach my $value (@$values) {
         $s->{$st->get_status($value)}++;
     }
 
-    my $criticals = $s->{Nagios::Plugin::Functions::CRITICAL};
+    my $criticals = $s->{Monitoring::Plugin::Functions::CRITICAL};
     my $status = $gt->get_status($criticals);
     return $status if $status != OK;
 
     if ($gt->warning->is_set) {
-        my $warnings = $s->{Nagios::Plugin::Functions::WARNING};
+        my $warnings = $s->{Monitoring::Plugin::Functions::WARNING};
         return WARNING if $gt->warning->check_range($warnings + $criticals);
     }
 

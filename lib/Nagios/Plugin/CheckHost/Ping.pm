@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use base 'Nagios::Plugin::CheckHost';
-use Nagios::Plugin::Threshold;
+use Monitoring::Plugin::Threshold;
 use Nagios::Plugin::Threshold::Group;
 
 sub _initialize {
@@ -96,11 +96,11 @@ sub process_check_result {
     }
 
     my $loss_threshold = Nagios::Plugin::Threshold::Group->new(
-        group_threshold => Nagios::Plugin::Threshold->new(
+        group_threshold => Monitoring::Plugin::Threshold->new(
             critical => $opts->get('critical'),
             warning  => $opts->get('warning'),
         ),
-        single_threshold => Nagios::Plugin::Threshold->new(
+        single_threshold => Monitoring::Plugin::Threshold->new(
             critical => $opts->get('loss_threshold_critical'),
             warning  => $opts->get('loss_threshold_warning'),
         ),
