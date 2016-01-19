@@ -30,7 +30,7 @@ sub prepare_request {
 
     HTTP::Request->new(
         'GET' => $uri, [
-            'User-Agent'   => 'Nagios::Plugin::CheckHost v' . $VERSION,
+            'User-Agent'   => 'Monitoring::Plugin::CheckHost v' . $VERSION,
             'Content-Type' => 'application/json',
             'Accept'       => 'application/json',
         ]

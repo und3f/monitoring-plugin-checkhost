@@ -1,4 +1,4 @@
-package Nagios::Plugin::CheckHost;
+package Monitoring::Plugin::CheckHost;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ our $URL = 'https://check-host.net/';
 use Net::CheckHost;
 use Monitoring::Plugin;
 use Class::Load qw(load_class);
-use Nagios::Plugin::CheckHost::Node;
+use Monitoring::Plugin::CheckHost::Node;
 use Try::Tiny;
 
 sub new {
@@ -72,7 +72,7 @@ sub _check {
         $self->{request_id} = $rid;
 
         my $result_class =
-          "Nagios::Plugin::CheckHost::Result::" . ucfirst($type);
+          "Monitoring::Plugin::CheckHost::Result::" . ucfirst($type);
         load_class($result_class);
         $result = $result_class->new(%$result_args,
             nodes => $self->nodes_class($check->{nodes}));
@@ -95,7 +95,7 @@ sub _check {
 sub nodes_class {
     my ($self, $nodes_list) = @_;
     my @nodes =
-      map { Nagios::Plugin::CheckHost::Node->new($_ => $nodes_list->{$_}) }
+      map { Monitoring::Plugin::CheckHost::Node->new($_ => $nodes_list->{$_}) }
       keys %$nodes_list;
     \@nodes;
 }

@@ -6,7 +6,7 @@ use Test::More;
 
 use Monitoring::Plugin::Threshold;
 use Monitoring::Plugin::Functions qw(:all);
-use_ok 'Nagios::Plugin::Threshold::Group';
+use_ok 'Monitoring::Plugin::Threshold::Group';
 
 my $SINGLE_CRITICAL = 4;
 my $SINGLE_WARNING  = 2;
@@ -24,7 +24,7 @@ my $group_threshold = Monitoring::Plugin::Threshold->new(
 );
 
 subtest 'everything is ok if every value just in range' => sub {
-    my $gt = new_ok 'Nagios::Plugin::Threshold::Group', [
+    my $gt = new_ok 'Monitoring::Plugin::Threshold::Group', [
         single_threshold => $single_threshold,
         group_threshold  => $group_threshold,
     ];
@@ -42,7 +42,7 @@ subtest 'everything is ok if every value just in range' => sub {
 
 subtest 'we may got warning if we got '
   . 'critical + warning > group_warning' => sub {
-    my $gt = new_ok 'Nagios::Plugin::Threshold::Group', [
+    my $gt = new_ok 'Monitoring::Plugin::Threshold::Group', [
         single_threshold => $single_threshold,
         group_threshold  => $group_threshold,
     ];
@@ -62,7 +62,7 @@ subtest 'we may got warning if we got '
 };
 
 subtest 'you have to be critical to make it critical' => sub {
-    my $gt = new_ok 'Nagios::Plugin::Threshold::Group', [
+    my $gt = new_ok 'Monitoring::Plugin::Threshold::Group', [
         single_threshold => $single_threshold,
         group_threshold  => $group_threshold,
     ];

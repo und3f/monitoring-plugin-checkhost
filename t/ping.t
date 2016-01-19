@@ -6,9 +6,9 @@ use warnings;
 use Test::More;
 use Monitoring::Plugin;
 use Monitoring::Plugin::Functions;
-use Nagios::Plugin::CheckHost::Node;
-use Nagios::Plugin::CheckHost::Result::Ping;
-use_ok 'Nagios::Plugin::CheckHost::Ping';
+use Monitoring::Plugin::CheckHost::Node;
+use Monitoring::Plugin::CheckHost::Result::Ping;
+use_ok 'Monitoring::Plugin::CheckHost::Ping';
 
 @ARGV = (
     qw(--host localhost),
@@ -20,14 +20,14 @@ use_ok 'Nagios::Plugin::CheckHost::Ping';
 );
 
 Monitoring::Plugin::Functions::_fake_exit(1);
-my $ping = new_ok 'Nagios::Plugin::CheckHost::Ping';
+my $ping = new_ok 'Monitoring::Plugin::CheckHost::Ping';
 $ping->nagios->getopts;
 $ping->{request_id} = 10;
 
 my $nodes = [
-    Nagios::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
-    Nagios::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
-    Nagios::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
 ];
 my $IP        = "127.0.0.1";
 my @OK        = ("OK", 1);
@@ -35,7 +35,7 @@ my @TIMEOUT   = ("TIMEOUT", 5);
 my @RESULT_OK = ([@OK, $IP], [@OK], [@OK], [@OK]);
 
 subtest 'loss ok result' => sub {
-    my $pingr = new_ok 'Nagios::Plugin::CheckHost::Result::Ping',
+    my $pingr = new_ok 'Monitoring::Plugin::CheckHost::Result::Ping',
       [nodes => $nodes];
     $pingr->store_result({
             $nodes->[0]->identifier => [[@RESULT_OK]],
@@ -54,7 +54,7 @@ subtest 'loss ok result' => sub {
 };
 
 subtest 'loss warning threshold' => sub {
-    my $pingr = new_ok 'Nagios::Plugin::CheckHost::Result::Ping',
+    my $pingr = new_ok 'Monitoring::Plugin::CheckHost::Result::Ping',
       [nodes => $nodes];
     $pingr->store_result({
             $nodes->[0]->identifier => [[@RESULT_OK]],
@@ -74,7 +74,7 @@ subtest 'loss warning threshold' => sub {
 };
 
 subtest 'loss critical threshold' => sub {
-    my $pingr = new_ok 'Nagios::Plugin::CheckHost::Result::Ping',
+    my $pingr = new_ok 'Monitoring::Plugin::CheckHost::Result::Ping',
       [nodes => $nodes];
     my @failed = ([@TIMEOUT, $IP], [@TIMEOUT], [@TIMEOUT], [@TIMEOUT]);
     $pingr->store_result({
@@ -93,7 +93,7 @@ subtest 'loss critical threshold' => sub {
 };
 
 subtest 'slave fault' => sub {
-    my $pingr = new_ok 'Nagios::Plugin::CheckHost::Result::Ping',
+    my $pingr = new_ok 'Monitoring::Plugin::CheckHost::Result::Ping',
       [nodes => $nodes];
     $pingr->store_result({
             $nodes->[0]->identifier => [[@RESULT_OK]],

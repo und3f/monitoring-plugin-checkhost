@@ -4,17 +4,17 @@ use strict;
 use warnings;
 
 use Test::More;
-use Nagios::Plugin::CheckHost::Node;
+use Monitoring::Plugin::CheckHost::Node;
 
-use_ok 'Nagios::Plugin::CheckHost::Result::Http';
+use_ok 'Monitoring::Plugin::CheckHost::Result::Http';
 
 my $nodes = [
-    Nagios::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
-    Nagios::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
-    Nagios::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
+    Monitoring::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
 ];
 
-my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
+my $httpr = new_ok 'Monitoring::Plugin::CheckHost::Result::Http',
   [nodes => $nodes];
 is scalar $httpr->nodes, 3;
 

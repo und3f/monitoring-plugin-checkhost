@@ -1,4 +1,4 @@
-package Nagios::Plugin::CheckHost::Node;
+package Monitoring::Plugin::CheckHost::Node;
 
 use strict;
 use warnings;
