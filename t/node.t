@@ -5,8 +5,8 @@ use warnings;
 
 use Test::More;
 
-use_ok 'Monitoring::Plugin::CheckHost::Node';
-my $node = new_ok 'Monitoring::Plugin::CheckHost::Node',
+use_ok 'Nagios::Plugin::CheckHost::Node';
+my $node = new_ok 'Nagios::Plugin::CheckHost::Node',
   ['7f000001', ['be', 'Antwerp']];
 
 is $node->identifier, '7f000001';

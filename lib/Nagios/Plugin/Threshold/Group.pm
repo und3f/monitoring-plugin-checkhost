@@ -1,4 +1,4 @@
-package Monitoring::Plugin::Threshold::Group;
+package Nagios::Plugin::Threshold::Group;
 
 use strict;
 use warnings;

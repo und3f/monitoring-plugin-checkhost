@@ -1,9 +1,9 @@
-package Monitoring::Plugin::CheckHost::Result::Http;
+package Nagios::Plugin::CheckHost::Result::Http;
 
 use strict;
 use warnings;
 
-use base 'Monitoring::Plugin::CheckHost::Result';
+use base 'Nagios::Plugin::CheckHost::Result';
 
 sub request_ok {
     my ($self, $node) = @_;

@@ -4,17 +4,17 @@ use strict;
 use warnings;
 
 use Test::More;
-use Monitoring::Plugin::CheckHost::Node;
+use Nagios::Plugin::CheckHost::Node;
 
-use_ok 'Monitoring::Plugin::CheckHost::Result::Ping';
+use_ok 'Nagios::Plugin::CheckHost::Result::Ping';
 
 my $nodes = [
-    Monitoring::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
-    Monitoring::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
-    Monitoring::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
+    Nagios::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
+    Nagios::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
+    Nagios::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
 ];
 
-my $pingr = new_ok 'Monitoring::Plugin::CheckHost::Result::Ping',
+my $pingr = new_ok 'Nagios::Plugin::CheckHost::Result::Ping',
   [nodes => $nodes, failed_allowed => 0.5];
 is scalar $pingr->nodes, 3;
 

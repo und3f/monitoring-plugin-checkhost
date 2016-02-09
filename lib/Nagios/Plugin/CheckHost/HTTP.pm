@@ -1,9 +1,9 @@
-package Monitoring::Plugin::CheckHost::HTTP;
+package Nagios::Plugin::CheckHost::HTTP;
 
 use strict;
 use warnings;
 
-use base 'Monitoring::Plugin::CheckHost';
+use base 'Nagios::Plugin::CheckHost';
 
 sub _initialize {
     my $self = shift;

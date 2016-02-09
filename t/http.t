@@ -8,9 +8,9 @@ use Monitoring::Plugin;
 use Monitoring::Plugin::Functions;
 Monitoring::Plugin::Functions::_fake_exit(1);
 
-use Monitoring::Plugin::CheckHost::Node;
-use Monitoring::Plugin::CheckHost::Result::Http;
-use_ok 'Monitoring::Plugin::CheckHost::HTTP';
+use Nagios::Plugin::CheckHost::Node;
+use Nagios::Plugin::CheckHost::Result::Http;
+use_ok 'Nagios::Plugin::CheckHost::HTTP';
 
 @ARGV = (
     qw(--host localhost),
@@ -20,14 +20,14 @@ use_ok 'Monitoring::Plugin::CheckHost::HTTP';
 );
 
 
-my $http = new_ok 'Monitoring::Plugin::CheckHost::HTTP';
+my $http = new_ok 'Nagios::Plugin::CheckHost::HTTP';
 $http->nagios->getopts;
 $http->{request_id} = 10;
 
 my $nodes = [
-    Monitoring::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
-    Monitoring::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
-    Monitoring::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
+    Nagios::Plugin::CheckHost::Node->new("7f000001", ['be', 'Antwerp']),
+    Nagios::Plugin::CheckHost::Node->new("7f000002", ['fr', 'Paris']),
+    Nagios::Plugin::CheckHost::Node->new("7f000003", ['it', 'Milan']),
 ];
 
 my $IP           = "127.0.0.1";
@@ -35,7 +35,7 @@ my @OK           = (1, '0.13', "OK", "200", $IP);
 my @SERVER_ERROR = (0, '0.17', "Not found", "404", $IP);
 
 subtest 'ok result' => sub {
-    my $httpr = new_ok 'Monitoring::Plugin::CheckHost::Result::Http',
+    my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
       [nodes => $nodes];
     $httpr->store_result({
             $nodes->[0]->identifier => [[@OK]],
@@ -49,7 +49,7 @@ subtest 'ok result' => sub {
 };
 
 subtest 'warning threshold' => sub {
-    my $httpr = new_ok 'Monitoring::Plugin::CheckHost::Result::Http',
+    my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
       [nodes => $nodes];
     $httpr->store_result({
             $nodes->[0]->identifier => [[@OK]],
@@ -63,7 +63,7 @@ subtest 'warning threshold' => sub {
 };
 
 subtest 'critical threshold' => sub {
-    my $httpr = new_ok 'Monitoring::Plugin::CheckHost::Result::Http',
+    my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
       [nodes => $nodes];
     $httpr->store_result({
             $nodes->[0]->identifier => [[@OK]],
@@ -77,7 +77,7 @@ subtest 'critical threshold' => sub {
 };
 
 subtest 'slave fault' => sub {
-    my $httpr = new_ok 'Monitoring::Plugin::CheckHost::Result::Http',
+    my $httpr = new_ok 'Nagios::Plugin::CheckHost::Result::Http',
       [nodes => $nodes];
     $httpr->store_result({
             $nodes->[0]->identifier => [[@OK]],

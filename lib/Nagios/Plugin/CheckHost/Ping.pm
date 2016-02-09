@@ -1,11 +1,11 @@
-package Monitoring::Plugin::CheckHost::Ping;
+package Nagios::Plugin::CheckHost::Ping;
 
 use strict;
 use warnings;
 
-use base 'Monitoring::Plugin::CheckHost';
+use base 'Nagios::Plugin::CheckHost';
 use Monitoring::Plugin::Threshold;
-use Monitoring::Plugin::Threshold::Group;
+use Nagios::Plugin::Threshold::Group;
 
 sub _initialize {
     my $self = shift;
@@ -95,7 +95,7 @@ sub process_check_result {
         }
     }
 
-    my $loss_threshold = Monitoring::Plugin::Threshold::Group->new(
+    my $loss_threshold = Nagios::Plugin::Threshold::Group->new(
         group_threshold => Monitoring::Plugin::Threshold->new(
             critical => $opts->get('critical'),
             warning  => $opts->get('warning'),

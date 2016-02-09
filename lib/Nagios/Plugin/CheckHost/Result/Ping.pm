@@ -1,9 +1,9 @@
-package Monitoring::Plugin::CheckHost::Result::Ping;
+package Nagios::Plugin::CheckHost::Result::Ping;
 
 use strict;
 use warnings;
 
-use base "Monitoring::Plugin::CheckHost::Result";
+use base "Nagios::Plugin::CheckHost::Result";
 
 sub calc_rtt {
     my ($self, $node) = @_;

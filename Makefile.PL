@@ -1,7 +1,7 @@
 use inc::Module::Install;
 
-name 'Monitoring-Plugin-CheckHost';
-all_from 'lib/Monitoring/Plugin/CheckHost.pm';
+name 'Nagios-Plugin-CheckHost';
+all_from 'lib/Nagios/Plugin/CheckHost.pm';
 install_script 'script/checkhost_ping';
 install_script 'script/checkhost_http';
 
@@ -17,7 +17,7 @@ requires 'Try::Tiny';
 tests 't/*.t';
 
 resources
-  bugtracker => 'https://github.com/und3f/monitoring-plugin-checkhost/issues',
-  repository => 'https://github.com/und3f/monitoring-plugin-checkhost';
+  bugtracker => 'https://github.com/und3f/nagios-plugin-checkhost/issues',
+  repository => 'http://github.com/und3f/nagios-plugin-checkhost';
 
 WriteAll;
