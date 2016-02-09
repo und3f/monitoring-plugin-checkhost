@@ -1,4 +1,4 @@
 #!/usr/bin/env perl
 
-use Monitoring::Plugin::CheckHost::Ping;
-Monitoring::Plugin::CheckHost::Ping->new->run;
+use Nagios::Plugin::CheckHost::Ping;
+Nagios::Plugin::CheckHost::Ping->new->run;
