@@ -107,3 +107,46 @@ sub report_url {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+Nagios::Plugin::CheckHost - Nagios plugin for checking checking availability of
+hosts.
+
+=head1 SYNOPSIS
+
+Command line usage:
+
+    checkhost_http -H metacpan.org
+    checkhost_ping -H metacpan.org
+
+Usefull Nagios commands available in C<nagios-checkhost.cfg>. Nagios service
+defination that uses commands of the C<nagios-checkhost.cfg>:
+
+    define service {
+            service_description     HTTP CheckHost
+            host_name               my.host.com
+            check_command           checkhost_http
+            use                     generic-service
+    }
+
+    define service {
+            service_description     Ping CheckHost
+            host_name               my.host.com
+            check_command           checkhost_ping
+            use                     generic-service
+    }
+    
+=head1 AUTHOR
+
+Sergey Zasenko, C<undef@cpan.org>.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2016, Sergey Zasenko.
+
+This program is free software, you can redistribute it and/or modify it under
+the same terms as Perl 5.10.
+
+=cut
