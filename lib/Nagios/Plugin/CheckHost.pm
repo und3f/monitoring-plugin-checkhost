@@ -112,7 +112,7 @@ __END__
 =head1 NAME
 
 Nagios::Plugin::CheckHost - Nagios plugin for checking checking availability of
-hosts.
+hosts with L<http://Check-Host.net>.
 
 =head1 SYNOPSIS
 
@@ -121,8 +121,9 @@ Command line usage:
     checkhost_http -H metacpan.org
     checkhost_ping -H metacpan.org
 
-Usefull Nagios commands available in C<nagios-checkhost.cfg>. Nagios service
-defination that uses commands of the C<nagios-checkhost.cfg>:
+Usefull Nagios commands are available in C<nagios-checkhost.cfg>. 
+You need to copy it to C</etc/nagios-plugins/config/>.
+Next example show usage in Nagios:
 
     define service {
             service_description     HTTP CheckHost
@@ -138,6 +139,10 @@ defination that uses commands of the C<nagios-checkhost.cfg>:
             use                     generic-service
     }
     
+=head1 SEE ALSO
+
+L<http://Check-Host.net>
+
 =head1 AUTHOR
 
 Sergey Zasenko, C<undef@cpan.org>.
