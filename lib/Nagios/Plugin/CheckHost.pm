@@ -59,7 +59,8 @@ sub _check {
     my ($self, $type, $host, %args) = @_;
 
     my $max_nodes = delete $args{max_nodes} || 3;
-    my $max_failed_nodes = delete $args{max_failed_nodes} // 1;
+    my $max_failed_nodes = delete $args{max_failed_nodes};
+    $max_failed_nodes = 1 unless defined $max_failed_nodes;
     my $result_args = delete $args{result_args} || {};
 
     my $result;
