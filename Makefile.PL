@@ -13,6 +13,9 @@ requires 'LWP::UserAgent';
 requires 'Monitoring::Plugin';
 requires 'Test::More' => '0.88';
 requires 'Try::Tiny';
+requires 'Class::Load';
+requires 'JSON';
+requires 'URI';
 
 tests 't/*.t';
 
