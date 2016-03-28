@@ -5,8 +5,6 @@ all_from 'lib/Nagios/Plugin/CheckHost.pm';
 install_script 'script/checkhost_ping';
 install_script 'script/checkhost_http';
 
-no_index 'nagios-checkhost.cfg';
-
 requires 'Carp';
 requires 'List::Util';
 requires 'LWP::UserAgent';
