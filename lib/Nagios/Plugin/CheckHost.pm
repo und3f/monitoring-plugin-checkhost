@@ -55,6 +55,12 @@ sub run {
     $self->process_check_result($result);
 }
 
+sub _result_class {
+    my ($self, $type) = @_;
+
+    "Nagios::Plugin::CheckHost::Result::" . ucfirst($type)
+}
+
 sub _check {
     my ($self, $type, $host, %args) = @_;
 
@@ -72,8 +78,7 @@ sub _check {
         my $rid = $check->{request_id};
         $self->{request_id} = $rid;
 
-        my $result_class =
-          "Nagios::Plugin::CheckHost::Result::" . ucfirst($type);
+        my $result_class = $self->_result_class($type);
         load_class($result_class);
         $result = $result_class->new(%$result_args,
             nodes => $self->nodes_class($check->{nodes}));
