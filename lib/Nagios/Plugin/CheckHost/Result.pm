@@ -38,6 +38,15 @@ sub unfinished_nodes {
     @nodes;
 }
 
+sub remove_unfinished_nodes {
+    my $self = shift;
+
+    foreach my $node ($self->unfinished_nodes) {
+        delete $self->{nodes}{$node->identifier};
+    }
+}
+
+
 sub nodes {
     values %{$_[0]->{nodes}};
 }

@@ -95,6 +95,10 @@ sub _check {
         $self->{nagios}->die($_);
     };
 
+    $result->remove_unfinished_nodes;
+    $self->{nagios}->die("No check results. Report " . $self->report_url)
+      unless $result->nodes;
+
     return $result;
 }
 
