@@ -3,7 +3,7 @@ package Net::CheckHost;
 use strict;
 use warnings;
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 use JSON;
 use LWP::UserAgent;

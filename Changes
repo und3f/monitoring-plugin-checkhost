@@ -1,5 +1,9 @@
 This file documents the revision history for Perl extension Nagios::Plugin::CheckHost
 
+0.05 2017-02-16
+    - fixed results waiting
+    - expandability improved
+
 0.04 2016-03-28
     - removed no_index
 
