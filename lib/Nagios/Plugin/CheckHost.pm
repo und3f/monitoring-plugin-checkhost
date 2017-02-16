@@ -88,7 +88,7 @@ sub _check {
             sleep $self->{delay};
             $result->store_result(
                 $self->{checkhost}->request("check-result/$rid"));
-          } while ($start - time() < $self->{max_waittime}
+          } while (time() - $start < $self->{max_waittime}
             && $result->unfinished_nodes);
     }
     catch {
