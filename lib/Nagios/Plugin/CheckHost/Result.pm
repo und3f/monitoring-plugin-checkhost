@@ -18,6 +18,7 @@ sub store_result {
 
         my $r = $results->{$node};
 
+        next unless defined $r;
         if (defined $r->[0]) {
             $self->{results}{$node_c} = $r;
         } else {
