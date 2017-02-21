@@ -14,12 +14,11 @@ sub new {
 sub store_result {
     my ($self, $results) = @_;
     foreach my $node (keys %$results) {
-        my $node_c = $self->{nodes}{$node} or next;
-
         my $r = $results->{$node};
-
         next unless defined $r;
+
         if (defined $r->[0]) {
+            my $node_c = $self->{nodes}{$node} or next;
             $self->{results}{$node_c} = $r;
         } else {
             delete $self->{nodes}{$node};
