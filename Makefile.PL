@@ -8,6 +8,7 @@ install_script 'script/checkhost_http';
 requires 'Carp';
 requires 'List::Util';
 requires 'LWP::UserAgent';
+requires 'LWP::Protocol::https';
 requires 'Monitoring::Plugin';
 requires 'Test::More' => '0.88';
 requires 'Try::Tiny';
